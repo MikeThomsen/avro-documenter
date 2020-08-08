@@ -56,6 +56,26 @@
                     "type": "test.ns.RequiredChildRecord"
                 }
             }
+        },
+        {
+            "name": "nullable_array",
+            "type": [
+                "null",
+                {
+                    "type": "array",
+                    "items":  {
+                        "type": "record",
+                        "namespace": "test.ns",
+                        "name": "NullableArrayChild",
+                        "fields": [
+                            {
+                                "name": "required",
+                                "type": "boolean"
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     ]
 }
