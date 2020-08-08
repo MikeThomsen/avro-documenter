@@ -7,6 +7,10 @@
     <packaging>jar</packaging>
     <name>Avro Documention Generator</name>
 
+    <properties>
+        <openhtml.version>1.0.4</openhtml.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.avro</groupId>
@@ -47,6 +51,35 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
+        </dependency>
+
+
+        <dependency>
+            <!-- ALWAYS required, usually included transitively. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-core</artifactId>
+            <version>${openhtml.version}</version>
+        </dependency>
+
+        <dependency>
+            <!-- Required for PDF output. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-pdfbox</artifactId>
+            <version>${openhtml.version}</version>
+        </dependency>
+
+        <dependency>
+            <!-- Required for image output only. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-java2d</artifactId>
+            <version>${openhtml.version}</version>
+        </dependency>
+
+        <dependency>
+            <!-- Optional, leave out if you do not need logging via slf4j. -->
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-slf4j</artifactId>
+            <version>${openhtml.version}</version>
         </dependency>
     </dependencies>
 
