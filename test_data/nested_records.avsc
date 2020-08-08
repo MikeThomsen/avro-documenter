@@ -69,8 +69,18 @@
                         "name": "NullableArrayChild",
                         "fields": [
                             {
-                                "name": "required",
-                                "type": "boolean"
+                                "name": "subrec",
+                                "type": {
+                                    "type": "record",
+                                    "name": "NestedSubRecord",
+                                    "namespace": "test.ns",
+                                    "fields": [
+                                        {
+                                            "name": "msg",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
