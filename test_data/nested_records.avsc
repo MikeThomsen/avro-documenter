@@ -1,0 +1,61 @@
+{
+    "name": "TopLevel",
+    "namespace": "test.ns",
+    "type": "record",
+    "fields": [
+        {
+            "name": "required_child",
+            "type": {
+                "type": "record",
+                "namespace": "test.ns",
+                "name": "RequiredChildRecord",
+                "fields": [
+                    {
+                        "name": "required",
+                        "type": "boolean"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "optional_child",
+            "type": ["null", {
+                "type": "record",
+                "namespace": "test.ns",
+                "name": "OptionalChildRecord",
+                "fields": [
+                    {
+                        "name": "required",
+                        "type": "boolean"
+                    }
+                ]
+            }]
+        },
+        {
+            "name": "array_child",
+            "type": {
+                "type": "array",
+                "items":  {
+                    "type": "record",
+                    "namespace": "test.ns",
+                    "name": "ArrayChild",
+                    "fields": [
+                        {
+                            "name": "required",
+                            "type": "boolean"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "map_child",
+            "type": {
+                "type": "map",
+                "values": {
+                    "type": "test.ns.RequiredChildRecord"
+                }
+            }
+        }
+    ]
+}

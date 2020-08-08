@@ -69,7 +69,7 @@ public class App {
                         referencedRecords.add(extractedSchema);
                     }
 
-                    getReferencedRecords(schema, referencedRecords);
+                    getReferencedRecords(extractedSchema, referencedRecords);
                 });
             }
         });
@@ -89,5 +89,9 @@ public class App {
         Schema parsed = new Schema.Parser().parse(new FileInputStream(rawInput));
         List<Schema> referencedRecords = new ArrayList<>();
         getReferencedRecords(parsed, referencedRecords);
+
+        System.out.println(String.format("Extracted %d record schemas.", referencedRecords.size()));
+        System.out.println("They are:");
+        referencedRecords.forEach(record -> System.out.println(record.getFullName()));
     }
 }
