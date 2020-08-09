@@ -1,5 +1,7 @@
 package org.apache.avro.documentation;
 
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
 import org.apache.avro.Schema;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -10,11 +12,14 @@ import org.apache.commons.cli.ParseException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static j2html.TagCreator.*;
 
 public class App {
     private static CommandLine parseArguments(String[] args) throws ParseException {
@@ -75,6 +80,36 @@ public class App {
         });
     }
 
+    public static ContainerTag convertRecordToHtml(Schema record) {
+        return div(
+            h3(record.getFullName()),
+            table(
+                tbody(
+                    tr(
+                        th("Field Name"),
+                        th("Field Type"),
+                        th("Documentation")
+                    ),
+                    each(record.getFields(), field -> tr(
+                        td(field.name()),
+                        td(field.schema().getFullName()),
+                        td(field.doc() != null ? field.doc() : "None provided.")
+                    ))
+                )
+            ),
+            br(),
+            br()
+        );
+    }
+
+    public static ContainerTag createBody(ContainerTag... tags) {
+        return html(
+            body(
+                tags
+            )
+        );
+    }
+
     public static void main(String[] args) throws Exception {
         CommandLine arguments = parseArguments(args);
         String schema = arguments.getOptionValue("schema");
@@ -91,7 +126,17 @@ public class App {
         getReferencedRecords(parsed, referencedRecords);
 
         System.out.println(String.format("Extracted %d record schemas.", referencedRecords.size()));
-        System.out.println("They are:");
-        referencedRecords.forEach(record -> System.out.println(record.getFullName()));
+
+        List<ContainerTag> convertedRecords = referencedRecords
+                .stream()
+                .map(record -> convertRecordToHtml(record))
+                .collect(Collectors.toList());
+        String body = createBody(convertedRecords.toArray(
+                new ContainerTag[convertedRecords.size()]
+        )).renderFormatted();
+
+        FileWriter writer = new FileWriter(String.format("%s.html", output));
+        writer.write(body);
+        writer.close();
     }
 }
